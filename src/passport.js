@@ -106,6 +106,7 @@ strategies.forEach(({ name, provider, Strategy, options, readProfile }) => {
       let user = await User.findOneByLogin(provider, profile.id);
       console.log(user, 'hey you user , where are you!!');
       if (req.user) {
+        console.log(req.user, 'whatr the fuckkkkkkkkkkkkkkk')
         if (user && req.user.id === user.id) {
           done(null, user);
         } else if (user) {

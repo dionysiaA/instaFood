@@ -14,8 +14,14 @@ import db from '../db';
 class User {
 
   static findOne(...args) {
-    console.log(args, 'here are the args')
     return db.table('users').where(...args).first('id', 'email');
+  }
+
+  static findOneAccessToken(userId) {
+    return db.table('users')
+      .leftJoin('user_claims', 'users.id', 'user_claims.user_id')
+      .where({ 'user_claims.user_id': userId})
+      .first( 'email', 'type', 'value');
   }
 
   static findOneByLogin(provider: string, key: string) {

@@ -35,11 +35,15 @@ const router = new _express.Router();
 
 router.get('/media', function (req, res, next) {
   if (req.user) {
-    console.log(req.user, 'is there any user in media?');
-    instagramAPI.userSelfMedia().then(media => {
-      console.log(media, 'this is one media in media');
-      return media.data.map(media => {
-        return media.images.standard_resolution.url;
+
+    _User2.default.findOneAccessToken(req.user.id).then(user => {
+      return new InstagramAPI(user.value);
+    }).then(instagramAPI => {
+      instagramAPI.userSelfMedia().then(media => {
+        console.log(media, 'this is one media in media');
+        return media.data.map(media => {
+          return media.images.standard_resolution.url;
+        });
       });
     }).catch(next);
   } else {
@@ -49,19 +53,20 @@ router.get('/media', function (req, res, next) {
 
 router.get('/media/foodTags', function (req, res, next) {
   if (req.user) {
-    const user = _User2.default.findOne('id', req.user.id).then(user => console.log(user.getClaims({ where: req.user.id }), 'here is the user'));
-    console.log(req.user, 'is there any user in foodTags');
-
-    Promise.all([instagramAPI.getMediasByTag('food'), instagramAPI.getMediasByTag('foodie'), instagramAPI.getMediasByTag('foodporn'), instagramAPI.getMediasByTag('ravioli')]).then(medias => {
-      const mergedArrays = mergedArrays = medias.reduce((acc, media) => {
-        return [...media.data];
-      }, []);
-      console.log(mergedArrays, 'this is one media in foodTags');
-      return mergedArrays.map(media => {
-        return {
-          url: media.images.standard_resolution.url,
-          tags: media.tags
-        };
+    _User2.default.findOneAccessToken(req.user.id).then(user => {
+      return new InstagramAPI(user.value);
+    }).then(instagramAPI => {
+      Promise.all([instagramAPI.getMediasByTag('food'), instagramAPI.getMediasByTag('foodie'), instagramAPI.getMediasByTag('foodporn'), instagramAPI.getMediasByTag('ravioli')]).then(medias => {
+        const mergedArrays = medias.reduce((acc, media) => {
+          return [...media.data];
+        }, []);
+        console.log(mergedArrays, 'this is one media in foodTags');
+        return mergedArrays.map(media => {
+          return {
+            url: media.images.standard_resolution.url,
+            tags: media.tags
+          };
+        });
       });
     }).catch(next);
   } else {
