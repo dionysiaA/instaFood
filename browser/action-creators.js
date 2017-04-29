@@ -12,9 +12,10 @@ const receiveFoodPhotos = (foodPhotos) => ({ type: RECEIVE_FOOD_PHOTOS,  foodPho
 // callbacks for retrieving the data from the database
 export function getAllPhotos(){
   return  (dispatch) => {
+    console.log('trying to dsiaptchioho getallPhotos')
     axios.get('/api/instagram/media')
       .then( media => {
-        console.log(media)
+        console.log(media, 'here are the media retrieved from the server')
         dispatch(receiveAllPhotos(media))
       })
       .catch( err => console.err(err) )
@@ -23,8 +24,10 @@ export function getAllPhotos(){
 
 export function getFoodPhotos(){
   return  (dispatch) => {
+    console.log('trying to foodTages getallPhotos')
     axios.get(`/api/instagram/media/foodTags`)
-      .then( media => {
+      .then(media => {
+        console.log(media, 'here are the foody retrieved from the server')
         dispatch(receiveFoodPhotos(media))
       })
       .catch( err => console.err(err) )

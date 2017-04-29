@@ -10,7 +10,7 @@ import InstaFoodContainer from './Containers/instagramPhotosContainer'
 import {getAllPhotos, getFoodPhotos} from './action-creators'
 
 const fetchInitialData = function(nextRouterState) {
-  store.dispatch(getAllPhotos())
+  // store.dispatch(getAllPhotos())
   store.dispatch(getFoodPhotos())
 }
 
