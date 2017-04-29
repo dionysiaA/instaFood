@@ -78,16 +78,20 @@ var _account = require('./routes/account');
 
 var _account2 = _interopRequireDefault(_account);
 
+var _socialMediaRoutes = require('./routes/socialMediaRoutes');
+
+var _socialMediaRoutes2 = _interopRequireDefault(_socialMediaRoutes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const InstagramAPI = require('instagram-api'); /**
-                                                * Node.js API Starter Kit (https://reactstarter.com/nodejs)
-                                                *
-                                                * Copyright © 2016-present Kriasoft, LLC. All rights reserved.
-                                                *
-                                                * This source code is licensed under the MIT license found in the
-                                                * LICENSE.txt file in the root directory of this source tree.
-                                                */
+/**
+ * Node.js API Starter Kit (https://reactstarter.com/nodejs)
+ *
+ * Copyright © 2016-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
 _i18next2.default.use(_i18nextExpressMiddleware.LanguageDetector).use(_i18nextNodeFsBackend2.default).init({
   preload: ['en', 'de'],
@@ -146,23 +150,19 @@ app.use('/graphql', (0, _expressGraphql2.default)(req => ({
 
 // The following routes are intended to be used in development mode only
 if (process.env.NODE_ENV !== 'production') {
-  // A route for testing email templates
-  app.get('/:email(email|emails)/:template', (req, res) => {
-    const message = _email2.default.render(req.params.template, { t: req.t, v: 123 });
-    res.send(message.html);
-  });
 
   // A route for testing authentication/authorization
-  app.get('/', (req, res) => {
+  app.get('/', function (req, res, next) {
     if (req.user) {
-      res.send(`<p>${req.t('Welcome, {{user}}!', { user: req.user.email })} (<a href="javascript:fetch('/login/clear', { method: 'POST', credentials: 'include' }).then(() => window.location = '/')">${req.t('log out')}</a>)</p>`);
-      const instagramAPI = new InstagramAPI('4243299161.1677ed0.692b9153d5d34d84beb7d24f9c0842c1');
-      instagramAPI.userSelfMedia().then(media => console.log(media.data[0].tags));
+      next();
     } else {
-      // TODO: THIS NEEDS TO CHANGE IN INSTAGRAM
-      res.send(`<p>${req.t('Welcome, guest!')} (<a href="/login/instagram">${req.t('sign in')}</a>)</p>`);
+      console.log('use not logged in', req.user);
+      res.redirect('/login/instagram');
     }
   });
+
+  app.use(_express2.default.static(_path2.default.join(__dirname, '..', 'public/')));
+  app.use('/api/instagram', _socialMediaRoutes2.default);
 }
 
 const pe = new _prettyError2.default();

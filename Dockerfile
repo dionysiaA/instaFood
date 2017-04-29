@@ -9,4 +9,6 @@ COPY . .
 # Install Node.js dependencies
 RUN yarn install --production --no-progress
 
+RUN webpack
+
 CMD [ "node", "build/_server.js" ]

@@ -2,20 +2,28 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Compo from './Component';
+import store from './store'
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory, onEnter } from 'react-router';
+
+import InstaFoodContainer from './Containers/instagramPhotosContainer'
+import {getAllPhotos, getFoodPhotos} from './action-creators'
+
+const fetchInitialData = function(nextRouterState) {
+  store.dispatch(getAllPhotos())
+  store.dispatch(getFoodPhotos())
+}
 
 ReactDOM.render(
   <div className="container flexbox-container">
     <div className="jumbotron">
-      {/*<Provider store = {store}>*/}
+      <Provider store = {store}>
         <Router history={browserHistory}>
-          <Route path="/" component={Compo}>
-            <IndexRoute component={Compo} />
+          <Route path="/" component={InstaFoodContainer} onEnter={fetchInitialData}>
+            <IndexRoute component={InstaFoodContainer} />
           </Route>
         </Router>
-      {/*</Provider>*/}
+      </Provider>
     </div>
   </div>,
   document.getElementById('app')

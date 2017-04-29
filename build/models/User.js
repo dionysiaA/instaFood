@@ -13,6 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class User {
 
   static findOne(...args) {
+    console.log(args, 'here are the args');
     return _db2.default.table('users').where(...args).first('id', 'email');
   }
 

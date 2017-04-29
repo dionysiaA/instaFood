@@ -14,6 +14,7 @@ import db from '../db';
 class User {
 
   static findOne(...args) {
+    console.log(args, 'here are the args')
     return db.table('users').where(...args).first('id', 'email');
   }
 

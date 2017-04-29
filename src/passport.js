@@ -77,7 +77,7 @@ const strategies = [
     readProfile(profile) {
       console.log(profile, 'this is the profile');
       return {
-        email: 'test@test.com',
+        email: `${profile.username}@test.com`,
         id: profile._json.id,
       };
     },
@@ -97,6 +97,7 @@ strategies.forEach(({ name, provider, Strategy, options, readProfile }) => {
       // }
       const { email, id } = readProfile(profile);
       console.log( id, 'hey you user , where are you!!');
+      console.log(accessToken, 'hey do i have an access token?')
       const claims = [
         { type: `urn:${provider}:access_token`, value: accessToken },
         { type: `urn:${provider}:refresh_token`, value: refreshToken },

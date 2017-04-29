@@ -28,9 +28,7 @@ import redis from './redis';
 import passport from './passport';
 import schema from './schema';
 import accountRoutes from './routes/account';
-
-const InstagramAPI = require('instagram-api');
-
+import socialMediaRoutes from './routes/socialMediaRoutes'
 
 i18next
   .use(LanguageDetector)
@@ -92,23 +90,20 @@ app.use('/graphql', expressGraphQL(req => ({
 
 // The following routes are intended to be used in development mode only
 if (process.env.NODE_ENV !== 'production') {
-  // A route for testing email templates
-  app.get('/:email(email|emails)/:template', (req, res) => {
-    const message = email.render(req.params.template, { t: req.t, v: 123 });
-    res.send(message.html);
-  });
 
   // A route for testing authentication/authorization
-  app.get('/', (req, res) => {
-    if (req.user) {
-      res.send(`<p>${req.t('Welcome, {{user}}!', { user: req.user.email })} (<a href="javascript:fetch('/login/clear', { method: 'POST', credentials: 'include' }).then(() => window.location = '/')">${req.t('log out')}</a>)</p>`);
-      const instagramAPI = new InstagramAPI('4243299161.1677ed0.692b9153d5d34d84beb7d24f9c0842c1');
-      instagramAPI.userSelfMedia().then(media => console.log(media.data[0].tags));
-    } else {
-      // TODO: THIS NEEDS TO CHANGE IN INSTAGRAM
-      res.send(`<p>${req.t('Welcome, guest!')} (<a href="/login/instagram">${req.t('sign in')}</a>)</p>`);
-    }
+  app.get('/', function(req, res, next) {
+      if (req.user) {
+        next()
+      } else {
+        console.log('use not logged in', req.user)
+        res.redirect('/login/instagram');
+      }
   });
+
+
+  app.use(express.static(path.join(__dirname, '..', 'public/')));
+  app.use('/api/instagram', socialMediaRoutes)
 }
 
 const pe = new PrettyError();

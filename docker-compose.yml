@@ -50,7 +50,19 @@ services:
       - ./:/usr/src/app
     user: node
     working_dir: /usr/src/app
-    command: node tools/run.js
+    command: >
+        sh -c '
+        if test -d node_modules;
+        then
+          echo node_modules_exists ;
+        else
+          cp -a /tmp/node_modules /usr/src/app/website;
+        fi &&
+        npm install &&
+        ./node_modules/.bin/webpack -w &
+         /usr/local/bin/node tools/run.js
+        '
+#    command: node tools/run.js
 
   # SQL and document data store
   db:
