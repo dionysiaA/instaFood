@@ -3,7 +3,7 @@ import axios from 'axios';
 export const RECEIVE_RECIPE = 'RECEIVE_RECIPE';
 
 //action creators
-const receiveRecipe = (recipe) => ({ type: RECEIVE_RECIPE,  recipe});
+const receiveRecipe = (recipes) => ({ type: RECEIVE_RECIPE,  recipes});
 
 export function getRecipe(tags){
   return  (dispatch) => {
@@ -19,7 +19,7 @@ export function getRecipe(tags){
     })
       .then(recipe => {
         console.log(recipe, tags, 'recipe found!!!!')
-        dispatch(receiveRecipe(recipe))
+        dispatch(receiveRecipe(recipe.data.recipes))
       })
       .catch( err => console.err(err) )
   }

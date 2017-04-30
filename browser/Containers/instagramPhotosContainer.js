@@ -3,9 +3,11 @@ import InstagramPhotos from '../Components/instagramPhotos'
 import {getRecipe} from '../action-creators/recipeActionCreators'
 
 function mapStateToProps(state) {
+  console.log(state, 'here is my state!!!!!!')
   return {
     allPhotos: state.allPhotos,
-    allFoodPhotos: state.allFoodPhotos
+    allFoodPhotos: state.allFoodPhotos,
+    recipes: state.recipes
   }
 }
 

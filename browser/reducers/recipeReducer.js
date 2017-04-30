@@ -2,16 +2,13 @@ import {
   RECEIVE_RECIPE,
 } from '../action-creators/recipeActionCreators'
 
-const recipesReducer = function(state = {}, action) {
-  const newState = Object.assign({}, state)
+const recipesReducer = function(state = [], action) {
   switch(action.type){
     case RECEIVE_RECIPE:
-      newState.recipe = action.recipe;
-      break;
+      return action.recipes;
     default:
       return state;
   }
-  return newState;
 };
 
 export default recipesReducer;
