@@ -8875,83 +8875,7 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.RECEIVE_FOOD_PHOTOS = exports.RECEIVE_ALL_PHOTOS = undefined;
-exports.getAllPhotos = getAllPhotos;
-exports.getFoodPhotos = getFoodPhotos;
-
-var _axios = __webpack_require__(138);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var RECEIVE_ALL_PHOTOS = exports.RECEIVE_ALL_PHOTOS = 'RECEIVE_ALL_PHOTOS';
-var RECEIVE_FOOD_PHOTOS = exports.RECEIVE_FOOD_PHOTOS = 'RECEIVE_FOOD_PHOTOS';
-
-//action creators
-var receiveAllPhotos = function receiveAllPhotos(allPhotos) {
-  return { type: RECEIVE_ALL_PHOTOS, allPhotos: allPhotos };
-};
-var receiveFoodPhotos = function receiveFoodPhotos(foodPhotos) {
-  return { type: RECEIVE_FOOD_PHOTOS, foodPhotos: foodPhotos };
-};
-
-//action - thunks for creating dispatch
-// callbacks for retrieving the data from the database
-function getAllPhotos() {
-  return function (dispatch) {
-    console.log('trying to dsiaptchioho getallPhotos');
-    _axios2.default.get('/api/instagram/media').then(function (media) {
-      console.log(media, 'here are the media retrieved from the server');
-      dispatch(receiveAllPhotos(media));
-    }).catch(function (err) {
-      return console.err(err);
-    });
-  };
-}
-
-function getFoodPhotos() {
-  return function (dispatch) {
-    console.log('trying to foodTages getallPhotos');
-    _axios2.default.get('/api/instagram/media/foodTags').then(function (media) {
-      console.log(media, 'here are the foody retrieved from the server');
-      dispatch(receiveFoodPhotos(media));
-    }).catch(function (err) {
-      return console.err(err);
-    });
-  };
-}
-//
-// export function getPuppyLikes(id){
-//   return  (dispatch) => {
-//     axios.get(`/api/puppies/${id}/likes`)
-//       .then( puppy => {
-//         dispatch(receive_single_puppy_likes(puppy.data.likes))
-//       })
-//       .catch( err => console.err(err) )
-//   }
-// }
-//
-// export function increasePuppyLikes(id, likes){
-//   return  (dispatch) => {
-//     axios.put(`/api/puppies/${id}/likes`, { likes } )
-//       .then( puppy => {
-//         dispatch(increase_single_puppy_likes(puppy.data.likes))
-//       })
-//       .catch( err => console.err(err) )
-//   }
-// }
-
-/***/ }),
+/* 73 */,
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14660,6 +14584,8 @@ var _instagramPhotos = __webpack_require__(156);
 
 var _instagramPhotos2 = _interopRequireDefault(_instagramPhotos);
 
+var _recipeActionCreators = __webpack_require__(328);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapStateToProps(state) {
@@ -14669,13 +14595,16 @@ function mapStateToProps(state) {
   };
 }
 
-// const mapDispatch = dispatch => ({
-//   keyAction: (dataPassingDown) => {
-//     dispatch(keyAction(dataPassingDown));
-//   }
-// });
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    getRecipe: function getRecipe(tags) {
+      console.log(tags, 'tags in container dispatcb');
+      dispatch((0, _recipeActionCreators.getRecipe)(tags));
+    }
+  };
+};
 
-var InstaFoodContainer = (0, _reactRedux.connect)(mapStateToProps)(_instagramPhotos2.default);
+var InstaFoodContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatch)(_instagramPhotos2.default);
 
 exports.default = InstaFoodContainer;
 
@@ -14692,9 +14621,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(72);
 
-var _instagramReducers = __webpack_require__(158);
+var _reducers = __webpack_require__(329);
 
-var _instagramReducers2 = _interopRequireDefault(_instagramReducers);
+var _reducers2 = _interopRequireDefault(_reducers);
 
 var _reduxThunk = __webpack_require__(317);
 
@@ -14707,7 +14636,7 @@ var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var middleware = (0, _redux.applyMiddleware)((0, _reduxLogger2.default)(), _reduxThunk2.default);
-var store = (0, _redux.createStore)(_instagramReducers2.default, middleware);
+var store = (0, _redux.createStore)(_reducers2.default, middleware);
 
 exports.default = store;
 
@@ -15575,6 +15504,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
@@ -15583,48 +15514,86 @@ var _reactRouter = __webpack_require__(75);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var InstagramPhotos = function InstagramPhotos(props) {
-  console.log(props, 'here are the props for isntagfranlknf');
-  var card_text = 'this is a test';
-  return _react2.default.createElement(
-    'ul',
-    { className: 'cards' },
-    props.allFoodPhotos && props.allFoodPhotos.data && props.allFoodPhotos.data.map(function (food) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var InstagramPhotos = function (_React$Component) {
+  _inherits(InstagramPhotos, _React$Component);
+
+  function InstagramPhotos(props) {
+    _classCallCheck(this, InstagramPhotos);
+
+    var _this = _possibleConstructorReturn(this, (InstagramPhotos.__proto__ || Object.getPrototypeOf(InstagramPhotos)).call(this, props));
+
+    _this.whereIsRecipe = _this.whereIsRecipe.bind(_this);
+    return _this;
+  }
+
+  _createClass(InstagramPhotos, [{
+    key: 'whereIsRecipe',
+    value: function whereIsRecipe(tags) {
+      this.props.getRecipe(tags);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
-        'li',
-        { className: 'cards__item' },
-        _react2.default.createElement(
-          'div',
-          { className: 'card' },
-          _react2.default.createElement(
-            'div',
-            { className: 'card__image' },
-            _react2.default.createElement('img', { src: food.url })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'card__content' },
+        'ul',
+        { className: 'cards' },
+        this.props.allFoodPhotos && this.props.allFoodPhotos.data && this.props.allFoodPhotos.data.map(function (food, idx) {
+          return _react2.default.createElement(
+            'li',
+            { key: idx, className: 'cards__item' },
             _react2.default.createElement(
               'div',
-              { className: 'card__title' },
-              'Flex'
-            ),
-            _react2.default.createElement(
-              'p',
-              { className: 'card__text' },
-              'This is the shorthand for flex-grow, flex-shrink and flex-basis combined. The second and third parameters (flex-shrink and flex-basis) are optional. Default is 0 1 auto. '
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'btn btn--block card__btn' },
-              'Button'
+              { className: 'card' },
+              _react2.default.createElement(
+                'div',
+                { className: 'card__image' },
+                _react2.default.createElement('img', { src: food.url })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'card__content' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'card__title' },
+                  'Tags:'
+                ),
+                _react2.default.createElement(
+                  'ul',
+                  { className: 'card__text' },
+                  food.tags.map(function (tag, fix) {
+                    return _react2.default.createElement(
+                      'li',
+                      { key: fix },
+                      '#',
+                      tag
+                    );
+                  })
+                ),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'btn btn--block card__btn', onClick: function onClick() {
+                      return _this2.whereIsRecipe(food.tags);
+                    } },
+                  'Recipe'
+                )
+              )
             )
-          )
-        )
+          );
+        })
       );
-    })
-  );
-};
+    }
+  }]);
+
+  return InstagramPhotos;
+}(_react2.default.Component);
 
 exports.default = InstagramPhotos;
 
@@ -15655,13 +15624,13 @@ var _instagramPhotosContainer = __webpack_require__(135);
 
 var _instagramPhotosContainer2 = _interopRequireDefault(_instagramPhotosContainer);
 
-var _actionCreators = __webpack_require__(73);
+var _istagramActionCreators = __webpack_require__(327);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetchInitialData = function fetchInitialData(nextRouterState) {
   // store.dispatch(getAllPhotos())
-  _store2.default.dispatch((0, _actionCreators.getFoodPhotos)());
+  _store2.default.dispatch((0, _istagramActionCreators.getFoodPhotos)());
 };
 
 _reactDom2.default.render(_react2.default.createElement(
@@ -15696,41 +15665,42 @@ _reactDom2.default.render(_react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.allFoodPhotos = exports.allPhotosReducer = undefined;
 
-var _actionCreators = __webpack_require__(73);
+var _istagramActionCreators = __webpack_require__(327);
 
 var _redux = __webpack_require__(72);
 
-var allPhotosReducer = function allPhotosReducer() {
+var allPhotosReducer = exports.allPhotosReducer = function allPhotosReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case _actionCreators.RECEIVE_ALL_PHOTOS:
+    case _istagramActionCreators.RECEIVE_ALL_PHOTOS:
       return action.allPhotos;
     default:
       return state;
   }
 };
 
-var allFoodPhotos = function allFoodPhotos() {
+var allFoodPhotos = exports.allFoodPhotos = function allFoodPhotos() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case _actionCreators.RECEIVE_FOOD_PHOTOS:
+    case _istagramActionCreators.RECEIVE_FOOD_PHOTOS:
       return action.foodPhotos;
     default:
       return state;
   }
 };
 
-var rootReducer = (0, _redux.combineReducers)({
-  allPhotos: allPhotosReducer,
-  allFoodPhotos: allFoodPhotos
-});
-
-exports.default = rootReducer;
+// const rootReducer = combineReducers({
+//   allPhotos: allPhotosReducer,
+//   allFoodPhotos: allFoodPhotos
+// });
+//
+// export default rootReducer;
 
 /***/ }),
 /* 159 */
@@ -34534,6 +34504,190 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RECEIVE_FOOD_PHOTOS = exports.RECEIVE_ALL_PHOTOS = undefined;
+exports.getAllPhotos = getAllPhotos;
+exports.getFoodPhotos = getFoodPhotos;
+
+var _axios = __webpack_require__(138);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RECEIVE_ALL_PHOTOS = exports.RECEIVE_ALL_PHOTOS = 'RECEIVE_ALL_PHOTOS';
+var RECEIVE_FOOD_PHOTOS = exports.RECEIVE_FOOD_PHOTOS = 'RECEIVE_FOOD_PHOTOS';
+
+//action creators
+var receiveAllPhotos = function receiveAllPhotos(allPhotos) {
+  return { type: RECEIVE_ALL_PHOTOS, allPhotos: allPhotos };
+};
+var receiveFoodPhotos = function receiveFoodPhotos(foodPhotos) {
+  return { type: RECEIVE_FOOD_PHOTOS, foodPhotos: foodPhotos };
+};
+
+//action - thunks for creating dispatch
+// callbacks for retrieving the data from the database
+function getAllPhotos() {
+  return function (dispatch) {
+    console.log('trying to dsiaptchioho getallPhotos');
+    _axios2.default.get('/api/instagram/media').then(function (media) {
+      console.log(media, 'here are the media retrieved from the server');
+      dispatch(receiveAllPhotos(media));
+    }).catch(function (err) {
+      return console.err(err);
+    });
+  };
+}
+
+function getFoodPhotos() {
+  return function (dispatch) {
+    console.log('trying to foodTages getallPhotos');
+    _axios2.default.get('/api/instagram/media/foodTags').then(function (media) {
+      console.log(media, 'here are the foody retrieved from the server');
+      dispatch(receiveFoodPhotos(media));
+    }).catch(function (err) {
+      return console.err(err);
+    });
+  };
+}
+//
+// export function getPuppyLikes(id){
+//   return  (dispatch) => {
+//     axios.get(`/api/puppies/${id}/likes`)
+//       .then( puppy => {
+//         dispatch(receive_single_puppy_likes(puppy.data.likes))
+//       })
+//       .catch( err => console.err(err) )
+//   }
+// }
+//
+// export function increasePuppyLikes(id, likes){
+//   return  (dispatch) => {
+//     axios.put(`/api/puppies/${id}/likes`, { likes } )
+//       .then( puppy => {
+//         dispatch(increase_single_puppy_likes(puppy.data.likes))
+//       })
+//       .catch( err => console.err(err) )
+//   }
+// }
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RECEIVE_RECIPE = undefined;
+exports.getRecipe = getRecipe;
+
+var _axios = __webpack_require__(138);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RECEIVE_RECIPE = exports.RECEIVE_RECIPE = 'RECEIVE_RECIPE';
+
+//action creators
+var receiveRecipe = function receiveRecipe(recipe) {
+  return { type: RECEIVE_RECIPE, recipe: recipe };
+};
+
+function getRecipe(tags) {
+  return function (dispatch) {
+    _axios2.default.get('https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random', {
+      params: {
+        tags: tags,
+        limitLicense: false,
+        number: 3
+      },
+      headers: { 'X-Mashape-Key': 'Cl8mkj5Tr7msh1zjmFrgaNhIXvk4p1oikEzjsniMhEGk70UZo5',
+        'Accept': 'application/json'
+      }
+    }).then(function (recipe) {
+      console.log(recipe, tags, 'recipe found!!!!');
+      dispatch(receiveRecipe(recipe));
+    }).catch(function (err) {
+      return console.err(err);
+    });
+  };
+}
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _instagramReducers = __webpack_require__(158);
+
+var _recipeReducer = __webpack_require__(330);
+
+var _recipeReducer2 = _interopRequireDefault(_recipeReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* Dependencies */
+var _require = __webpack_require__(72),
+    combineReducers = _require.combineReducers;
+
+/* Import Other Reducers */
+
+
+/* Combine & Export Reducers to Store */
+var mainReducer = combineReducers({
+  allPhotos: _instagramReducers.allPhotosReducer,
+  allFoodPhotos: _instagramReducers.allFoodPhotos,
+  recipes: _recipeReducer2.default
+});
+
+module.exports = mainReducer;
+
+/***/ }),
+/* 330 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _recipeActionCreators = __webpack_require__(328);
+
+var recipesReducer = function recipesReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  var newState = Object.assign({}, state);
+  switch (action.type) {
+    case _recipeActionCreators.RECEIVE_RECIPE:
+      newState.recipe = action.recipe;
+      break;
+    default:
+      return state;
+  }
+  return newState;
+};
+
+exports.default = recipesReducer;
 
 /***/ })
 /******/ ]);

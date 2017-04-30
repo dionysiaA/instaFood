@@ -1,11 +1,11 @@
 import {
   RECEIVE_ALL_PHOTOS,
   RECEIVE_FOOD_PHOTOS
-} from '../action-creators'
+} from '../action-creators/istagramActionCreators'
 
 import { combineReducers } from 'redux';
 
-const allPhotosReducer = function(state = [], action) {
+export const allPhotosReducer = function(state = [], action) {
  switch(action.type){
     case RECEIVE_ALL_PHOTOS:
       return action.allPhotos;
@@ -14,7 +14,7 @@ const allPhotosReducer = function(state = [], action) {
   }
 };
 
-const allFoodPhotos = function(state = [], action) {
+export const allFoodPhotos = function(state = [], action) {
   switch(action.type){
     case RECEIVE_FOOD_PHOTOS:
       return action.foodPhotos;
@@ -23,9 +23,9 @@ const allFoodPhotos = function(state = [], action) {
   }
 };
 
-const rootReducer = combineReducers({
-  allPhotos: allPhotosReducer,
-  allFoodPhotos: allFoodPhotos
-});
-
-export default rootReducer;
+// const rootReducer = combineReducers({
+//   allPhotos: allPhotosReducer,
+//   allFoodPhotos: allFoodPhotos
+// });
+//
+// export default rootReducer;

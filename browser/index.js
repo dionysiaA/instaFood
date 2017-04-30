@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory, onEnter } from 'react-router';
 
 import InstaFoodContainer from './Containers/instagramPhotosContainer'
-import {getAllPhotos, getFoodPhotos} from './action-creators'
+import {getAllPhotos, getFoodPhotos} from './action-creators/istagramActionCreators'
 
 const fetchInitialData = function(nextRouterState) {
   // store.dispatch(getAllPhotos())

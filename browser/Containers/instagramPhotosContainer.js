@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import InstagramPhotos from '../Components/instagramPhotos'
+import {getRecipe} from '../action-creators/recipeActionCreators'
 
 function mapStateToProps(state) {
   return {
@@ -8,14 +9,16 @@ function mapStateToProps(state) {
   }
 }
 
-// const mapDispatch = dispatch => ({
-//   keyAction: (dataPassingDown) => {
-//     dispatch(keyAction(dataPassingDown));
-//   }
-// });
+const mapDispatch = dispatch => ({
+  getRecipe: (tags) => {
+    console.log(tags, 'tags in container dispatcb')
+    dispatch(getRecipe(tags));
+  }
+});
 
 const InstaFoodContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatch
 )(InstagramPhotos);
 
 export default InstaFoodContainer;

@@ -2,11 +2,14 @@
 const {combineReducers} = require('redux');
 
 /* Import Other Reducers */
-import rootReducer from './instagramReducers';
+import {allPhotosReducer, allFoodPhotos} from './instagramReducers';
+import recipesReducer from './recipeReducer';
 
 /* Combine & Export Reducers to Store */
 const mainReducer = combineReducers({
-  rootReducer
+  allPhotos: allPhotosReducer,
+  allFoodPhotos,
+  recipes: recipesReducer
 });
 
 module.exports = mainReducer;
