@@ -15652,7 +15652,7 @@ var InstagramPhotos = function (_React$Component) {
                               { className: 'btn btn--block card__btn', type: 'button' },
                               _react2.default.createElement(
                                 'a',
-                                { href: recipe.sourceUrl },
+                                { href: recipe.spoonacularSourceUrl },
                                 'Recipe'
                               )
                             )

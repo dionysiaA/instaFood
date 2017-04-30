@@ -58,7 +58,7 @@ class InstagramPhotos extends React.Component {
                                  <p className="card__text">Likes: {recipe.aggregateLikes}
                                  </p>
                                  <button className="btn btn--block card__btn" type="button">
-                                   <a href={recipe.sourceUrl}>Recipe</a>
+                                   <a href={recipe.spoonacularSourceUrl}>Recipe</a>
                                  </button>
                                </div>
                              </div>
