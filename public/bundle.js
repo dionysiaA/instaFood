@@ -15518,6 +15518,10 @@ var _Modal = __webpack_require__(331);
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
+var _RecipeCard = __webpack_require__(591);
+
+var _RecipeCard2 = _interopRequireDefault(_RecipeCard);
+
 var _Collapse = __webpack_require__(441);
 
 var _Collapse2 = _interopRequireDefault(_Collapse);
@@ -15614,51 +15618,22 @@ var InstagramPhotos = function (_React$Component) {
                       return _this2.closeModal();
                     } },
                   _react2.default.createElement(
-                    'h2',
-                    null,
-                    'Recipe based on tags'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'cards' },
+                    'div',
+                    { id: 'content' },
+                    _react2.default.createElement(
+                      'h2',
+                      { style: { fontSize: '1.7em', fontWeight: '900' } },
+                      'Recipe based on tags:'
+                    ),
                     _this2.props.recipes && _this2.props.recipes.map(function (recipe) {
-                      return _react2.default.createElement(
-                        'li',
-                        { key: recipe.id, className: 'cards__item' },
-                        _react2.default.createElement(
-                          'div',
-                          { className: 'card' },
-                          _react2.default.createElement(
-                            'div',
-                            { className: 'card__image' },
-                            _react2.default.createElement('img', { src: recipe.image })
-                          ),
-                          _react2.default.createElement(
-                            'div',
-                            { className: 'card__content' },
-                            _react2.default.createElement(
-                              'div',
-                              { className: 'card__title', style: { fontSize: '1.25rem' } },
-                              recipe.title
-                            ),
-                            _react2.default.createElement(
-                              'p',
-                              { className: 'card__text' },
-                              'Likes: ',
-                              recipe.aggregateLikes
-                            ),
-                            _react2.default.createElement(
-                              'button',
-                              { className: 'btn btn--block card__btn', type: 'button' },
-                              _react2.default.createElement(
-                                'a',
-                                { href: recipe.spoonacularSourceUrl },
-                                'Recipe'
-                              )
-                            )
-                          )
-                        )
-                      );
+                      return _react2.default.createElement(_RecipeCard2.default, { key: recipe.id,
+                        recipeImage: recipe.image,
+                        title: recipe.title,
+                        duration: recipe.readyInMinutes,
+                        calories: recipe.healthScore,
+                        servings: recipe.servings,
+                        sourceTitle: recipe.spoonacularSourceUrl
+                      });
                     })
                   ),
                   _react2.default.createElement(
@@ -15709,6 +15684,10 @@ var _reactRedux = __webpack_require__(74);
 
 var _reactRouter = __webpack_require__(75);
 
+var _Navbar = __webpack_require__(592);
+
+var _Navbar2 = _interopRequireDefault(_Navbar);
+
 var _instagramPhotosContainer = __webpack_require__(135);
 
 var _instagramPhotosContainer2 = _interopRequireDefault(_instagramPhotosContainer);
@@ -15728,6 +15707,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(
     'div',
     { className: 'jumbotron' },
+    _react2.default.createElement(_Navbar2.default, null),
     _react2.default.createElement(
       _reactRedux.Provider,
       { store: _store2.default },
@@ -53450,6 +53430,188 @@ function isReactComponent(component) {
   return !!(component && component.prototype && component.prototype.isReactComponent);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 591 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RecipeCard = function (_React$Component) {
+  _inherits(RecipeCard, _React$Component);
+
+  function RecipeCard(props) {
+    _classCallCheck(this, RecipeCard);
+
+    var _this = _possibleConstructorReturn(this, (RecipeCard.__proto__ || Object.getPrototypeOf(RecipeCard)).call(this, props));
+
+    _this.fillHeart = _this.fillHeart.bind(_this);
+    return _this;
+  }
+
+  _createClass(RecipeCard, [{
+    key: 'fillHeart',
+    value: function fillHeart(event) {
+      if (event.target.className.includes('fa-heart')) {
+        event.target.classList.add('fa-heart');
+      } else {}
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'recipe' },
+        _react2.default.createElement(
+          'div',
+          { className: 'image' },
+          _react2.default.createElement('img', { src: this.props.recipeImage }),
+          _react2.default.createElement(
+            'div',
+            { className: 'likes' },
+            _react2.default.createElement('i', { className: 'fa fa-heart-o lv', 'data-test': 'pulse',
+              onClick: function onClick(evt) {
+                return _this2.fillHeart(evt);
+              } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'name' },
+            _react2.default.createElement(
+              'h4',
+              null,
+              _react2.default.createElement(
+                'a',
+                { style: { color: '#FFF' }, href: this.props.sourceTitle },
+                this.props.title
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { style: { marginTop: 0 }, className: 'media' },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement('i', { className: 'fa fa-clock-o' }),
+            ' ',
+            this.props.duration,
+            ' Minutes'
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement('i', { className: 'fa fa-leaf' }),
+            this.props.calories,
+            ' Calories'
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement('i', { className: 'fa fa-cutlery' }),
+            this.props.servings,
+            ' People'
+          )
+        )
+      );
+    }
+  }]);
+
+  return RecipeCard;
+}(_react2.default.Component);
+
+exports.default = RecipeCard;
+
+/***/ }),
+/* 592 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(75);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Navbar = _react2.default.createClass({
+  displayName: 'Navbar',
+
+  getInitialState: function getInitialState() {
+    return {
+      iconName: 'fa fa-list-ul'
+    };
+  },
+  toggleViews: function toggleViews() {
+    var newIcon = this.state.iconName === 'fa fa-th' ? 'fa fa-list-ul' : 'fa fa-th';
+    this.setState({
+      iconName: newIcon
+    });
+  },
+  render: function render() {
+    var otherView = this.state.iconName === 'fa fa-list-ul' ? '/recipeList' : '/';
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'div',
+        { className: 'header' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('i', { className: 'fa fa-cutlery' }),
+          _react2.default.createElement(
+            'span',
+            { className: 'head-title' },
+            'InstaFood box'
+          ),
+          _react2.default.createElement('i', { className: 'fa fa-spoon' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'btn-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'btn-link', onClick: this.toggleViews },
+            _react2.default.createElement('i', { id: 'switch-view-icon', className: this.state.iconName })
+          )
+        )
+      ),
+      this.props.children
+    );
+  }
+});
+
+exports.default = Navbar;
 
 /***/ })
 /******/ ]);

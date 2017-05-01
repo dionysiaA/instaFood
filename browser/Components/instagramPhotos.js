@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Modal from './Modal'
+import RecipeCard from './RecipeCard'
 import Collapse from 'react-bootstrap/lib/Collapse';
 import { Grid, Row, Col, Thumbnail, Button, Fade } from 'react-bootstrap';
 
@@ -43,31 +44,24 @@ class InstagramPhotos extends React.Component {
                   </ul>
                   <button className="btn btn--block card__btn" onClick={ () => this.whereIsRecipe(food.tags)}>Recipe</button>
                   <Modal isOpen={this.state.isModalOpen} onClose={() => this.closeModal()}>
-                    <h2>Recipe based on tags</h2>
-                    <ul className="cards">
-                    {
-                      this.props.recipes && this.props.recipes.map(recipe => {
-                         return (
-                           <li key={recipe.id} className="cards__item">
-                             <div className="card">
-                               <div className="card__image">
-                                 <img src={recipe.image}/>
-                               </div>
-                               <div className="card__content">
-                                 <div className="card__title" style={{fontSize: '1.25rem'}}>{recipe.title}</div>
-                                 <p className="card__text">Likes: {recipe.aggregateLikes}
-                                 </p>
-                                 <button className="btn btn--block card__btn" type="button">
-                                   <a href={recipe.spoonacularSourceUrl}>Recipe</a>
-                                 </button>
-                               </div>
-                             </div>
-                           </li>
+                    <div id="content">
+                      <h2 style={{fontSize:'1.7em', fontWeight:'900'}}>Recipe based on tags:</h2>
+                      {
+                        this.props.recipes && this.props.recipes.map(recipe => {
+                           return (
+                            <RecipeCard key={recipe.id}
+                              recipeImage={recipe.image}
+                              title={recipe.title}
+                              duration={recipe.readyInMinutes}
+                              calories={recipe.healthScore}
+                              servings={recipe.servings}
+                              sourceTitle={recipe.spoonacularSourceUrl}
+                            />
 
-                         )
-                      })
-                    }
-                    </ul>
+                           )
+                        })
+                      }
+                    </div>
                     <p><button onClick={() => this.closeModal()}>Close</button></p>
                   </Modal>
 
