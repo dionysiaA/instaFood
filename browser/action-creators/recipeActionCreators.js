@@ -13,7 +13,7 @@ export function getRecipe(tags){
         limitLicense: false,
         number: 3
       },
-      headers: {'X-Mashape-Key':'Cl8mkj5Tr7msh1zjmFrgaNhIXvk4p1oikEzjsniMhEGk70UZo5',
+      headers: {'X-Mashape-Key':'IdaOzxwJTjmshhdNsoCAwu2vQIUqp1mntymjsnaqCA8FTAQwcu',
         'Accept':'application/json'
       }
     })
